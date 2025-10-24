@@ -10,6 +10,11 @@
   /* Colors -----------------> */
   --background: #184E77;
   --font-color: white;
+
+  --button-bg: #1C2321;
+  --button-border: #000000;
+  --button-font: #D9ED92;
+  --button-border-hover: #D9ED92;
   /* < --- > */
 }
 
