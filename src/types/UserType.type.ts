@@ -1,7 +1,7 @@
 type UserType = {
   id: string;
   name: string;
-  sockedId: string;
+  socketId: string | undefined;
 };
 
 export type { UserType };

@@ -6,7 +6,7 @@ export type FormStateType = {
 };
 
 type FormInputProps = {
-  name: string;
+  name?: string;
   handleSubmit: Function;
   setFormState: React.Dispatch<React.SetStateAction<FormStateType>>;
   type: string;
