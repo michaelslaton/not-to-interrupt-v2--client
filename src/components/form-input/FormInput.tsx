@@ -1,37 +1,24 @@
 import './formInput.css';
 
-export type FormStateType = {
-  newRoomName: string;
-  newUserName: string;
-};
-
 type FormInputProps = {
-  name?: string;
+  inputValue?: string;
   handleSubmit: Function;
-  setFormState: React.Dispatch<React.SetStateAction<FormStateType>>;
-  type: string;
+  setInputName: React.Dispatch<React.SetStateAction<string>>;
+  name: string;
   maxLength: number;
 };
 
-const FormInput = ({ name, handleSubmit, type, setFormState, maxLength }: FormInputProps) => {
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>, type: string): void => {
-    if (type === 'Room') {
-      setFormState(prev => ({ ...prev, newRoomName: e.target.value }));
-    } else {
-      setFormState(prev => ({ ...prev, newUserName: e.target.value }));
-    }
-  };
+const FormInput = ({ inputValue, handleSubmit, name, setInputName, maxLength }: FormInputProps) => {
 
   return (
-    <div className='form-input__create-container'>
+    <div className='form-input__container'>
       <form onSubmit={(e)=> handleSubmit(e)}>
         <input
           type='text'
-          className='form-input__create-input'
-          placeholder={`${type} Name`}
-          value={name}
-          onChange={(e)=> handleChange(e, type)}
+          className='form-input__input'
+          placeholder={`${name} Name`}
+          value={inputValue}
+          onChange={(e)=> setInputName(e.target.value )}
           data-testid='formInput-input'
           maxLength={maxLength}
         />
@@ -39,7 +26,7 @@ const FormInput = ({ name, handleSubmit, type, setFormState, maxLength }: FormIn
           className='form-input__create'
           type='submit'
         >
-          Create {type}
+          Create {name}
         </button>
       </form>
     </div>
