@@ -15,7 +15,7 @@ const RoomList = () => {
 
     const interval = setInterval(() => {
       socket.emit('getRoomList');
-    }, 10000);
+    }, 5000);
 
     return () => {
       clearInterval(interval);
@@ -26,8 +26,8 @@ const RoomList = () => {
   return (
     <div className='app-screen'>
       <div className='room-list'>
-        {roomList.map((room) => (
-          <div key={room.name}>{room.name}</div>
+        {roomList.map((room,i) => (
+          <div key={i}>{room.name}</div>
         ))}
       </div>
     </div>

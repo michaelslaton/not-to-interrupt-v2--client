@@ -4,4 +4,9 @@ type UserType = {
   socketId: string | undefined;
 };
 
-export type { UserType };
+type NewUserType = {
+  name: string;
+  socketId: string | undefined;
+};
+
+export type { UserType, NewUserType };

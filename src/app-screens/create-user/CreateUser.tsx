@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useAppContext } from '../../App';
-import { v4 as uuid } from 'uuid';
 import FormInput from '../../components/form-input/FormInput';
+import type { NewUserType } from '../../types/UserType.type';
 import './CreateUser.css';
 
 const CreateUser = () => {
@@ -18,11 +18,11 @@ const CreateUser = () => {
     if(!regExOnlyLettersAndSpace.test(enteredName)) return console.error('Entered User name containes symbols or numbers.');
     if((enteredName.match(/ /g) || []).length > 1) return console.error('Entered User name containes too many spaces.');
 
-    socket.emit('createUser', {
-        id: uuid(),
+    const newUser: NewUserType = {
         name: enteredName,
         socketId: socket.id,
-    });
+    };
+    socket.emit('createUser', newUser);
   };
 
   return (
