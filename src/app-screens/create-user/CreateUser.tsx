@@ -26,7 +26,7 @@ const CreateUser = () => {
   };
 
   return (
-    <div className='app-screen'>
+    <div className='create-user-wrapper'>
       <FormInput
         inputValue={inputName}
         handleSubmit={handleCreateUser}

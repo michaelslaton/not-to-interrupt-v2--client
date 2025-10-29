@@ -1,6 +1,12 @@
+.room-list-wrapper {
+  width: 45%;
+  margin: 0 auto;
+}
+
 .room-list {
-  background-color: green;
+  background-color: rgb(0, 128, 111);
   border: 2px solid black;
-  border-radius: 15px;
-  padding: 1rem 5px;
+  border-radius: 12px;
+  padding: 1rem 0;
+  width: 100%;
 }

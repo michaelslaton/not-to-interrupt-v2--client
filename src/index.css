@@ -59,12 +59,6 @@ img {
   width: 100%;
 }
 
-.app-screen {
-  margin: 0 auto;
-  display: block;
-  width: fit-content;
-}
-
 @media (min-width: 375px){
 }
 

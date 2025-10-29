@@ -47,7 +47,7 @@ const App = () => {
       socket.off('updateData', handleAppData);
       // socket.off('getRoomList', handleRoomList);
     };
-  }, [appState.user]);
+  }, [appState.user, appState.roomData]);
 
   const populateDisplay = () => {
     if(!appState.user) return <CreateUser/>;

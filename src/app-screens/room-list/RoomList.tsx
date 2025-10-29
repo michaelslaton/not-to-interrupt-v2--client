@@ -1,17 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../../App';
+import RoomListEntry from './room-list-entry/RoomListEntry';
 import './roomList.css';
 
 const RoomList = () => {
-  const { socket } = useAppContext();
-  const [roomList, setRoomList] = useState<{ name: string }[]>([]);
+  const { socket, appState } = useAppContext();
+  const [roomList, setRoomList] = useState<{ id: string, name: string, users: string[] }[]>([]);
 
   useEffect(() => {
     if (!socket) return;
-    const handleRoomList = (data: { name: string }[]) => setRoomList(data);
 
-    socket.emit('getRoomList');
+    const handleRoomList = (data: { id: string,  name: string; users: string[] }[]) => {
+      setRoomList(data);
+    };
+
     socket.on('roomListUpdate', handleRoomList);
+    socket.emit('getRoomList');
 
     const interval = setInterval(() => {
       socket.emit('getRoomList');
@@ -23,12 +27,24 @@ const RoomList = () => {
     };
   }, [socket]);
 
+  useEffect(() => {
+    if (socket) socket.emit('getRoomList');
+  }, [socket, appState.roomData]);
+
   return (
-    <div className='app-screen'>
+    <div className='room-list-wrapper'>
       <div className='room-list'>
-        {roomList.map((room,i) => (
-          <div key={i}>{room.name}</div>
-        ))}
+        { roomList.length ?
+              roomList.map((room,i) => (
+              <>
+                <RoomListEntry data={room} index={i}/>
+              </>
+            ))
+          :
+            <>
+              No Available Rooms
+            </>
+        }
       </div>
     </div>
   );
