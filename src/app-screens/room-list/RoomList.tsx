@@ -1,16 +1,17 @@
 import { useEffect, useState } from 'react';
 import { useAppContext } from '../../App';
 import RoomListEntry from './room-list-entry/RoomListEntry';
+import type { RoomListingType } from '../../types/RoomType.type';
 import './roomList.css';
 
 const RoomList = () => {
   const { socket, appState } = useAppContext();
-  const [roomList, setRoomList] = useState<{ id: string, name: string, users: string[] }[]>([]);
+  const [roomList, setRoomList] = useState<RoomListingType[]>([]);
 
   useEffect(() => {
     if (!socket) return;
 
-    const handleRoomList = (data: { id: string,  name: string; users: string[] }[]) => {
+    const handleRoomList = (data: RoomListingType[]) => {
       setRoomList(data);
     };
 
@@ -35,10 +36,10 @@ const RoomList = () => {
     <div className='room-list-wrapper'>
       <div className='room-list'>
         { roomList.length ?
-              roomList.map((room,i) => (
-              <>
+            roomList.map((room,i) => (
+              <div key={i}>
                 <RoomListEntry data={room} index={i}/>
-              </>
+              </div>
             ))
           :
             <>

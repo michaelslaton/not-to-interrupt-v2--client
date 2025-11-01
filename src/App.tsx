@@ -5,6 +5,7 @@ import type { AppStateType } from './types/AppStateType.type';
 import './App.css'
 import RoomList from './app-screens/room-list/RoomList';
 import CreateRoom from './app-screens/create-room/CreateRoom';
+import Room from './app-screens/room/Room';
 
 const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
 
@@ -45,7 +46,6 @@ const App = () => {
 
     return () => {
       socket.off('updateData', handleAppData);
-      // socket.off('getRoomList', handleRoomList);
     };
   }, [appState.user, appState.roomData]);
 
@@ -57,6 +57,7 @@ const App = () => {
         <CreateRoom/>
       </>
     );
+    if(appState.roomData) return <Room/>;
     else return <RoomList/>;
   };
 
@@ -64,7 +65,6 @@ const App = () => {
     <AppContext.Provider value={{appState, setAppState, socket}}>
       <div className='header'>
         <h1>Not to Interrupt 🎙️</h1>
-        { appState.user && <h2>{appState.user.name}</h2>}
       </div>
       <div className='center-space'>
         {populateDisplay()}

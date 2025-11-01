@@ -26,7 +26,10 @@ const RoomListEntry = ({ data, index }: Props) => {
   };
 
   return (
-    <div className='room-list-entry'>
+    <div
+      key={index}
+      className='room-list-entry'
+    >
       <div className='section'>
         {`${index+1}.`}
       </div>
