@@ -1,5 +1,9 @@
 .room-wrapper {
   width: 100%;
+  text-align: center;
+}
+
+.room-windows {
   display: flex;
   justify-content: center;
 }

@@ -2,12 +2,12 @@
   width: 100%;
   display: grid;
   grid-template-columns: 1rem 15rem 3rem 1fr;
-  background-color: white;
-  color: black;
+  background-color: var(--room-list-bg);
+  color: var(--room-list-font);
   padding: .2rem 1.5rem;
 }
 .room-list-entry:nth-child(even) {
-  background-color: rgb(118, 208, 211);
+  background-color: var(--room-list-bg-evens);
 }
 
 .room-list-entry > .section {
@@ -22,10 +22,10 @@
   padding: .2rem 1rem;
   border-radius: 5px;
   cursor: pointer;
-  color: white;
-  background-color: rgb(10, 98, 114);
+  color: var(--join-button-font);
+  background-color: var(--join-button-bg);
 }
 
 .join-button:is(:focus,:hover){
- border-color: rgb(0, 255, 213);
+ border-color: var(--join-button-border);
 }

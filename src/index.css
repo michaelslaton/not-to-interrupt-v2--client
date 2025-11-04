@@ -9,7 +9,20 @@
 :root {
   /* Colors -----------------> */
   --background: #184E77;
-  --font-color: white;
+  --font-color: #ffffff;
+
+  --app-title: #ffffff;
+
+  --div-border: #000000;
+  --div-bg: #00806f;
+  --div-border-radius: 8px;
+
+  --room-list-font: black;
+  --room-list-bg: white;
+  --room-list-bg-evens: #76d0d3;
+  --join-button-font: white;
+  --join-button-bg: rgb(10, 98, 114);
+  --join-button-border: rgb(0, 255, 213);
 
   --button-bg: #1C2321;
   --button-border: #000000;

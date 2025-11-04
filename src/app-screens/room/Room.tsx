@@ -12,10 +12,12 @@ const Room = () => {
 
   return (
     <div className='room-wrapper'>
-      <h1>{name}</h1>
       <div>
-        <ChatScreen/>
+        <h1>{name}</h1>
+      </div>
+      <div className='room-windows'>
         <UsersScreen/>
+        <ChatScreen/>
       </div>
     </div>
   );
