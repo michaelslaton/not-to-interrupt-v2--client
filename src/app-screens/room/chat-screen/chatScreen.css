@@ -1,6 +1,6 @@
 .chat-container {
   width: 100%;
-  max-width: 50%;
+  max-width: 55%;
   border: 2px solid var(--div-border);
   background-color: var(--div-bg);
   border-radius: var(--div-border-radius);

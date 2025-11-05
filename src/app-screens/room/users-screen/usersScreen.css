@@ -1,4 +1,22 @@
 .users {
   display: flex;
   flex-direction: column;
+  gap: .3rem;
+  width: 100%;
+  max-width: 25%;
+  border: 2px solid var(--div-border);
+  background-color: var(--div-bg);
+  border-radius: var(--div-border-radius);
+  padding: .5rem .6rem;
+}
+
+.userController {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid var(--div-border);
+  border-radius: var(--div-border-radius);
+  background-color: rgb(108, 170, 167);
+  padding: .2rem .4rem;
 }

@@ -1,7 +1,10 @@
+import type { UserControllerType } from "./ControllerType.type";
+
 type UserType = {
   id: string;
   name: string;
   socketId: string | undefined;
+  controller: UserControllerType;
 };
 
 type NewUserType = {

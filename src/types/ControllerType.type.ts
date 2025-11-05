@@ -1,8 +1,7 @@
-type ControllerType = {
+type UserControllerType = {
+  hasMic: boolean;
   afk: boolean;
   handUp: boolean;
-  hasMic: boolean;
-  comment: string;
-};
+}
 
-export type { ControllerType };
+export type { UserControllerType };
