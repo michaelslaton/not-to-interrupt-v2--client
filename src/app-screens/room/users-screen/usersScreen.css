@@ -3,7 +3,7 @@
   flex-direction: column;
   gap: .3rem;
   width: 100%;
-  max-width: 25%;
+  max-width: 15%;
   border: 2px solid var(--div-border);
   background-color: var(--div-bg);
   border-radius: var(--div-border-radius);
@@ -12,11 +12,30 @@
 
 .userController {
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: 5em 2em 2em 3em;
   align-items: center;
-  gap: 5px;
-  border: 1px solid var(--div-border);
+  gap: 1rem;
+  border: 2px solid rgb(51, 94, 92);
   border-radius: var(--div-border-radius);
   background-color: rgb(108, 170, 167);
   padding: .2rem .4rem;
+}
+.userController.owner {
+  border-color: var(--div-border);
+}
+
+.controllerButton {
+  background: none;
+  border: 0;
+  font-size: 1em;
+  color: white;
+}
+
+.controllerButton.owner {
+  cursor: pointer;
+}
+
+.userName {
+  width: 100%;
+  text-align: start;
 }
