@@ -24,18 +24,22 @@
   border-color: var(--div-border);
 }
 
-.controllerButton {
+.controllerButtonCleanUp {
   background: none;
   border: 0;
   font-size: 1em;
   color: white;
 }
 
-.controllerButton.owner {
+.controllerButtonCleanUp.button {
   cursor: pointer;
 }
 
 .userName {
   width: 100%;
   text-align: start;
+}
+
+.afk.active {
+  color: red;
 }

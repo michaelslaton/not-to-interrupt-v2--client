@@ -7,27 +7,52 @@ import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import './usersScreen.css';
 
 const UsersScreen = () => {
-  const { appState } = useAppContext();
+  const { appState, socket, setAppState } = useAppContext();
   const userList: UserType[] = appState.roomData!.users;
+  const { afk } = appState.user!.controller;
   
   const isOwner = (id: string, ownerId: string) => {
     if(id === ownerId) return true;
     return false;
   };
 
+  const handleAfk = (): void => {
+    const newUserData = {
+      ...appState.user,
+      controller: {
+        ...appState.user!.controller,
+        afk: !afk
+      }
+    };
+    socket.emit('updateUserInRoom', { roomId: appState.roomData!.id, newUserData: newUserData });
+    setAppState(prev => ({
+      ...prev,
+      user: {
+        ...prev.user!,
+        controller: {
+          ...prev.user!.controller!,
+          afk: !afk,
+        },
+      },
+    }));
+  };
+
   const populateUsers = (): JSX.Element[] => {
     const ownerUser = (
-      <div key='owner' className='userController owner'>
+      <div key='owner' className='userController button'>
         <div className='userName'>
           {appState.user!.name}
         </div>
         <div>
           🎙️
         </div>
-        <button className='controllerButton owner'>
+        <button className='controllerButtonCleanUp button'>
           <FontAwesomeIcon icon={faHandPaper as IconProp}/>
         </button>
-        <button className='controllerButton owner'>
+        <button
+          className={`controllerButtonCleanUp button afk ${afk && 'active' }`}
+          onClick={()=> handleAfk()}
+        >
           AFK
         </button>
       </div>
@@ -35,23 +60,22 @@ const UsersScreen = () => {
 
     const otherUsers = userList
       .filter(user => !isOwner(user.id, appState.user!.id))
-      .map((user, i) => (
-        <div key={i} className='userController'>
+      .map((user) => (
+        <div key={user.id} className='userController'>
           <div className='userName'>
             {user.name}
           </div>
-          <button className={`controllerButton hasMic ${user.controller.hasMic && 'active'}`}>
+          <button className={`controllerButtonCleanUp button hasMic ${user.controller.hasMic && 'active'}`}>
             🎙️
           </button>
-          <div className={`controllerButton handUp ${user.controller.handUp && 'active'}`}>
+          <div className={`controllerButtonCleanUp handUp ${user.controller.handUp && 'active'}`}>
             <FontAwesomeIcon icon={faHandPaper as IconProp}/>
           </div>
-          <div className={`controllerButton afk ${user.controller.afk && 'active'}`}>
+          <div className={`afk ${user.controller.afk && 'active'}`}>
             AFK
           </div>
         </div>
-      )
-    );
+    ));
 
     return [ownerUser, ...otherUsers];
   };
