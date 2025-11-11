@@ -43,3 +43,15 @@
 .afk.active {
   color: red;
 }
+
+.handUp.active {
+  color: rgb(217, 255, 0);
+}
+
+.hasMic {
+  transition: all 200ms ease-in-out;
+  filter: brightness(.3) saturate(100%);
+}
+.hasMic.active {
+  filter: drop-shadow(0px 0px 10px #b3ff03);
+}

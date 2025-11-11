@@ -8,8 +8,8 @@ import './usersScreen.css';
 
 const UsersScreen = () => {
   const { appState, socket, setAppState } = useAppContext();
+  const { afk, handUp, hasMic } = appState.user!.controller;
   const userList: UserType[] = appState.roomData!.users;
-  const { afk } = appState.user!.controller;
   
   const isOwner = (id: string, ownerId: string) => {
     if(id === ownerId) return true;
@@ -37,20 +37,62 @@ const UsersScreen = () => {
     }));
   };
 
+  const handleHandUp = (): void => {
+    if(hasMic && !handUp) return;
+    const newUserData = {
+      ...appState.user,
+      controller: {
+        ...appState.user!.controller,
+        handUp: !handUp
+      }
+    };
+    socket.emit('updateUserInRoom', { roomId: appState.roomData!.id, newUserData: newUserData });
+    setAppState(prev => ({
+      ...prev,
+      user: {
+        ...prev.user!,
+        controller: {
+          ...prev.user!.controller!,
+          handUp: !handUp,
+        },
+      },
+    }));
+  };
+
+  const handlePassTheMic = (toUserId: string) => {
+    if(!appState.user?.controller.hasMic) return;
+    
+    const foundUser = appState.roomData?.users.find((user)=> user.id === toUserId);
+    if(!foundUser) return;
+    if(foundUser.controller.hasMic) return console.log('na', foundUser.controller.hasMic);
+
+    socket.emit('passTheMic', {
+      fromUserId: appState.user!.id,
+      toUserId,
+      roomId: appState.roomData!.id
+    });
+  };
+
   const populateUsers = (): JSX.Element[] => {
     const ownerUser = (
-      <div key='owner' className='userController button'>
+      <div key='owner' className='userController owner button'>
         <div className='userName'>
           {appState.user!.name}
         </div>
-        <div>
+        <div
+          className={`hasMic ${hasMic && 'active'}`}
+          onClick={()=> console.log(hasMic)}
+        >
           🎙️
         </div>
-        <button className='controllerButtonCleanUp button'>
+        <button
+          className={`controllerButtonCleanUp button handUp ${handUp && 'active'}`}
+          onClick={()=> handleHandUp()}
+        >
           <FontAwesomeIcon icon={faHandPaper as IconProp}/>
         </button>
         <button
-          className={`controllerButtonCleanUp button afk ${afk && 'active' }`}
+          className={`controllerButtonCleanUp button afk ${afk && 'active'}`}
           onClick={()=> handleAfk()}
         >
           AFK
@@ -65,7 +107,10 @@ const UsersScreen = () => {
           <div className='userName'>
             {user.name}
           </div>
-          <button className={`controllerButtonCleanUp button hasMic ${user.controller.hasMic && 'active'}`}>
+          <button
+            className={`controllerButtonCleanUp button hasMic ${user.controller.hasMic && 'active'}`}
+            onClick={()=> handlePassTheMic(user.id)}
+          >
             🎙️
           </button>
           <div className={`controllerButtonCleanUp handUp ${user.controller.handUp && 'active'}`}>

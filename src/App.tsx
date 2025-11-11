@@ -29,7 +29,7 @@ const App = () => {
   });
 
   useEffect(() => {
-    const handleAppData = (data: any) => {
+    const handleAppData = (data: any): void => {
       const { user, roomData } = data;
       let newAppState = {};
 
@@ -41,13 +41,23 @@ const App = () => {
         ...newAppState
       }));
     };
+
+    const handleReset = (): void => {
+      setAppState({
+        user: null,
+        roomData: null,
+        error: null,
+      });
+    };
     
     socket.on('updateData', handleAppData);
+    socket.on('reset', handleReset);
 
     return () => {
       socket.off('updateData', handleAppData);
+      socket.off('reset', handleReset);
     };
-  }, [appState.user, appState.roomData]);
+  }, []);
 
   const populateDisplay = () => {
     if(!appState.user) return <CreateUser/>;
