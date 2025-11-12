@@ -9,3 +9,11 @@
   align-items: flex-start;
   gap: 8px;
 }
+
+.section__title {
+  margin: 0;
+  margin-left: .5rem;
+  margin-bottom: .1rem;
+  text-transform: capitalize;
+  font-size: .9rem;
+}

@@ -1,9 +1,15 @@
+.users__wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 15%;
+  text-align: left;
+}
+
 .users {
   display: flex;
   flex-direction: column;
   gap: .3rem;
-  width: 100%;
-  max-width: 15%;
   border: 2px solid var(--div-border);
   background-color: var(--div-bg);
   border-radius: var(--div-border-radius);
@@ -46,6 +52,7 @@
 
 .handUp.active {
   color: rgb(217, 255, 0);
+  filter: drop-shadow(0px 0px 10px #b3ff03);
 }
 
 .hasMic {

@@ -17,11 +17,15 @@ const UsersScreen = () => {
   };
 
   const handleAfk = (): void => {
+    if(hasMic) return;
+    let updatedHandUp: boolean = handUp;
+    if(!afk) updatedHandUp = false;
     const newUserData = {
       ...appState.user,
       controller: {
         ...appState.user!.controller,
-        afk: !afk
+        afk: !afk,
+        handUp: updatedHandUp,
       }
     };
     socket.emit('updateUserInRoom', { roomId: appState.roomData!.id, newUserData: newUserData });
@@ -32,6 +36,7 @@ const UsersScreen = () => {
         controller: {
           ...prev.user!.controller!,
           afk: !afk,
+          handUp: updatedHandUp,
         },
       },
     }));
@@ -39,14 +44,16 @@ const UsersScreen = () => {
 
   const handleHandUp = (): void => {
     if(hasMic && !handUp) return;
+    let updatedAfk: boolean = afk;
+    if(!handUp) updatedAfk = false;
     const newUserData = {
       ...appState.user,
       controller: {
         ...appState.user!.controller,
-        handUp: !handUp
+        handUp: !handUp,
+        afk: updatedAfk,
       }
     };
-    socket.emit('updateUserInRoom', { roomId: appState.roomData!.id, newUserData: newUserData });
     setAppState(prev => ({
       ...prev,
       user: {
@@ -54,9 +61,11 @@ const UsersScreen = () => {
         controller: {
           ...prev.user!.controller!,
           handUp: !handUp,
+          afk: updatedAfk,
         },
       },
     }));
+    socket.emit('updateUserInRoom', { roomId: appState.roomData!.id, newUserData: newUserData });
   };
 
   const handlePassTheMic = (toUserId: string) => {
@@ -64,7 +73,8 @@ const UsersScreen = () => {
     
     const foundUser = appState.roomData?.users.find((user)=> user.id === toUserId);
     if(!foundUser) return;
-    if(foundUser.controller.hasMic) return console.log('na', foundUser.controller.hasMic);
+    if(foundUser.controller.hasMic) return;
+    if(foundUser.controller.afk) return;
 
     socket.emit('passTheMic', {
       fromUserId: appState.user!.id,
@@ -126,8 +136,11 @@ const UsersScreen = () => {
   };
 
   return (
-    <div className='users'>
-      {populateUsers()}
+    <div className='users__wrapper'>
+      <h3 className='section__title'>User List</h3>
+      <div className='users'>
+        {populateUsers()}
+      </div>
     </div>
   );
 };
