@@ -20,3 +20,45 @@
   background-color: rgb(108, 170, 167);
   padding: .2rem .4rem;
 }
+
+.chat__entry {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  grid-template-rows: auto auto;
+  width: 100%;
+  gap: .2rem 1rem;
+  margin-bottom: .5rem;
+  background-color: rgb(27, 160, 153);
+  padding: .5rem;
+  border-radius: var(--div-border-radius);
+  align-items: end;
+}
+
+.chat__timestamp {
+  grid-column: 2;
+  grid-row: 1;
+  font-style: italic;
+  width: 100%;
+}
+
+.chat__userName {
+  display: inline-flex;
+  align-items: center;
+  grid-column: 1;
+  grid-row: 1;
+  font-weight: bold;
+  background-color: rgba(39, 39, 39, 0.4);
+  padding: .2rem 1rem;
+  border-radius: var(--div-border-radius);
+  width: auto;
+}
+
+.chat__message {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
+  padding: .5rem 1rem;
+  background-color: rgba(39, 39, 39, 0.4);
+  border-radius: var(--div-border-radius);
+  width: 100%;
+}

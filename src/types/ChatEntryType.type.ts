@@ -1,7 +1,10 @@
+import type { PublicUserType } from "./UserType.type";
+
 type ChatEntryType = {
-  user: string;
+  user: PublicUserType;
   message: string;
   color: string;
+  timeStamp: Date;
 }
 
 export type { ChatEntryType };

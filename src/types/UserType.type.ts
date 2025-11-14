@@ -13,3 +13,4 @@ type NewUserType = {
 };
 
 export type { UserType, NewUserType };
+export type PublicUserType = Omit<UserType, 'socketId'>;
