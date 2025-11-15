@@ -4,6 +4,7 @@
   width: 100%;
   max-width: 15%;
   text-align: left;
+  height: 80dvh;
 }
 
 .users {
@@ -14,6 +15,7 @@
   background-color: var(--div-bg);
   border-radius: var(--div-border-radius);
   padding: .5rem .6rem;
+  max-height: 60%;
 }
 
 .userController {

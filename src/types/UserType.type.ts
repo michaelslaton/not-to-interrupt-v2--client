@@ -5,6 +5,7 @@ type UserType = {
   name: string;
   socketId: string | undefined;
   controller: UserControllerType;
+  color: string;
 };
 
 type NewUserType = {
