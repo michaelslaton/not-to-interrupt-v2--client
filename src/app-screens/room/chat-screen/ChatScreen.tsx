@@ -1,16 +1,21 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useAppContext } from '../../../App';
 import type { ChatEntryType } from '../../../types/ChatEntryType.type';
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import './chatScreen.css';
 
 const ChatScreen = () => {
   const { socket, appState } = useAppContext();
   const [chatMessage, setChatMessage] = useState<string>('');
+  const [tempColor, setTempColor] = useState<string>('');
   const [chatEntries, setChatEntries] = useState<ChatEntryType[] | []>([]);  
   
   useEffect(()=>{
     socket.emit('getChatEntries', { roomId: appState.roomData!.id });
     socket.on('getChatEntries', (data => setChatEntries(data)));
+    setTempColor(appState.user!.color);
     return () => {
     socket.off('getChatEntries', (data => setChatEntries(data)));
     };
@@ -62,6 +67,14 @@ const ChatScreen = () => {
     socket.emit('sendChat', data);
   };
 
+  const handleSendColor = (): void => {
+    const updatedUser = {
+      ...appState.user,
+      color: tempColor,
+    };
+    socket.emit('updateColor', { roomId: appState.roomData!.id, newUserData: updatedUser })
+  };
+
   return (
     <div className='chat__wrapper'>
       <h3 className='section__title'>Chat</h3>
@@ -70,22 +83,41 @@ const ChatScreen = () => {
           {populateChatEntries()}
         </div>
 
-        <form
-          onSubmit={(e)=> sendChat(e)}
-          className='chat__input-wrapper'
-        >
-          <input
-            onChange={(e)=> setChatMessage(e.target.value)}
-            value={chatMessage}
-            className='chat__input'
-          />
-          <button
-            type='submit'
-            className='chat__send'
+        <div className='chat__controls'>
+          <form
+            onSubmit={(e)=> sendChat(e)}
+            className='chat__input-wrapper'
           >
-            Send
-          </button>
-        </form>
+            <input
+              onChange={(e)=> setChatMessage(e.target.value)}
+              value={chatMessage}
+              className='chat__input'
+            />
+            <button
+              type='submit'
+              className='chat__send'
+            >
+              Send
+            </button>
+          </form>
+
+          <div className='chat__input-wrapper'>
+            <input
+              type='color'
+              id='color'
+              name='color'
+              onChange={(e) => setTempColor(e.target.value)}
+              value={tempColor}
+              className='chat__color-select'
+            />
+            <button
+              className={`color__send ${appState.user!.color !== tempColor && 'unsaved'}`}
+              onClick={handleSendColor}
+            >
+              <FontAwesomeIcon icon={faRightFromBracket as IconProp}/>
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>
