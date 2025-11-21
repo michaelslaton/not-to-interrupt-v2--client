@@ -6,6 +6,7 @@ import './App.css'
 import RoomList from './app-screens/room-list/RoomList';
 import CreateRoom from './app-screens/create-room/CreateRoom';
 import Room from './app-screens/room/Room';
+import ErrorDisplay from './components/error-display/ErrorDisplay';
 
 const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
 
@@ -42,20 +43,19 @@ const App = () => {
       }));
     };
 
-    const handleReset = (): void => {
-      setAppState({
-        user: null,
-        roomData: null,
-        error: null,
-      });
+    const handleError = (data: string): void => {
+      setAppState(prev => ({
+        ...prev,
+        error: data,
+      }));
     };
     
     socket.on('updateData', handleAppData);
-    socket.on('reset', handleReset);
+    socket.on('error', handleError);
 
     return () => {
       socket.off('updateData', handleAppData);
-      socket.off('reset', handleReset);
+    socket.off('error', handleError);
     };
   }, []);
 
@@ -76,6 +76,7 @@ const App = () => {
       <div className='header'>
         <h1>Not to Interrupt 🎙️</h1>
       </div>
+      <ErrorDisplay/>
       <div className='center-space'>
         {populateDisplay()}
       </div>

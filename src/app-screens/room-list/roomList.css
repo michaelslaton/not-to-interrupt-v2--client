@@ -1,12 +1,25 @@
 .room-list-wrapper {
-  width: 45%;
+  width: 100%;
   margin: 0 auto;
+  height: 35dvh;
 }
 
-.room-list {
+.room-list-container {
   background-color: var(--div-bg);
   border: 2px solid var(--div-border);
   border-radius: 12px;
   padding: 1rem 0;
+  width: 25%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.room-list {
+  overflow-y: auto;
+  max-height: 100%;
+}
+
+.no-rooms {
   width: 100%;
+  text-align: center;
 }

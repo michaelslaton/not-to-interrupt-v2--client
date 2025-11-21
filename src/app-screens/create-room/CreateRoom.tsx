@@ -5,12 +5,20 @@ import './createRoom.css';
 
 const CreateRoom = () => {
   const [inputName, setInputName] = useState<string>('');
-  const { socket, appState } = useAppContext();
+  const { socket, appState, setAppState } = useAppContext();
   const regExOnlyLettersAndSpace: RegExp = /^[A-Za-z ]+$/;
 
   const handleCreateRoom = (e: Event): void  => {
     e.preventDefault();
     const enteredName: string = inputName.trim();
+    if(!regExOnlyLettersAndSpace.test(enteredName)) {
+      setAppState(prev => ({
+        ...prev,
+        error: 'Room name can not contain special characters or numbers.'
+      }));
+      return;
+    };
+
 
     socket.emit('createRoom', {
       name: enteredName,

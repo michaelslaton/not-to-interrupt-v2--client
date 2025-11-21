@@ -34,18 +34,18 @@ const RoomList = () => {
 
   return (
     <div className='room-list-wrapper'>
-      <div className='room-list'>
-        { roomList.length ?
-            roomList.map((room,i) => (
-              <div key={i}>
+      <div className='room-list-container'>
+        <div className='room-list'>
+          { roomList.length ?
+              roomList.map((room,i) => (
                 <RoomListEntry data={room} index={i}/>
+              ))
+            :
+              <div className='no-rooms'>
+                No Available Rooms
               </div>
-            ))
-          :
-            <>
-              No Available Rooms
-            </>
-        }
+          }
+        </div>
       </div>
     </div>
   );
