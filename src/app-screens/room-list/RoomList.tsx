@@ -3,13 +3,14 @@ import { useAppContext } from '../../App';
 import RoomListEntry from './room-list-entry/RoomListEntry';
 import type { RoomListingType } from '../../types/RoomType.type';
 import './roomList.css';
+import { handleError } from '../../utils/errors/handle-error/handleError';
 
 const RoomList = () => {
-  const { socket, appState } = useAppContext();
+  const { socket, appState, setAppState } = useAppContext();
   const [roomList, setRoomList] = useState<RoomListingType[]>([]);
 
   useEffect(() => {
-    if (!socket) return;
+      if(!socket.id) return handleError({ setAppState, message: 'No open socket' });
 
     const handleRoomList = (data: RoomListingType[]) => {
       setRoomList(data);

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAppContext } from '../../App';
 import FormInput from '../../components/form-input/FormInput';
 import './createRoom.css';
+import { handleError } from '../../utils/errors/handle-error/handleError';
 
 const CreateRoom = () => {
   const [inputName, setInputName] = useState<string>('');
@@ -11,14 +12,7 @@ const CreateRoom = () => {
   const handleCreateRoom = (e: Event): void  => {
     e.preventDefault();
     const enteredName: string = inputName.trim();
-    if(!regExOnlyLettersAndSpace.test(enteredName)) {
-      setAppState(prev => ({
-        ...prev,
-        error: 'Room name can not contain special characters or numbers.'
-      }));
-      return;
-    };
-
+    if(!regExOnlyLettersAndSpace.test(enteredName)) return handleError({ setAppState, message: 'Room name can not contain special characters or numbers.' });
 
     socket.emit('createRoom', {
       name: enteredName,

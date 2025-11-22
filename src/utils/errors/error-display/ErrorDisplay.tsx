@@ -1,10 +1,10 @@
-import { useAppContext } from '../../App';
+import { useAppContext } from '../../../App';
 import './errorDisplay.css';
 
 const ErrorDisplay = () => {
   const { appState, setAppState } = useAppContext();
 
-  const handleError = (): boolean => {
+  const isError = (): boolean => {
     if(appState.error) return true;
     return false;
   };
@@ -15,14 +15,12 @@ const ErrorDisplay = () => {
       error: null,
     }));
   };
-
-  console.log(appState.error)
   
   return (
     <>
-      { handleError() ?
+      { isError() ?
         <div className='error__wrapper'>
-          {`${handleError() ? appState.error : ''}`}
+          {`${isError() ? appState.error : ''}`}
           <button
           onClick={()=> handleClose()}
           >

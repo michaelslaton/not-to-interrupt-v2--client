@@ -6,7 +6,8 @@ import './App.css'
 import RoomList from './app-screens/room-list/RoomList';
 import CreateRoom from './app-screens/create-room/CreateRoom';
 import Room from './app-screens/room/Room';
-import ErrorDisplay from './components/error-display/ErrorDisplay';
+import ErrorDisplay from './utils/errors/error-display/ErrorDisplay';
+import { handleError } from './utils/errors/handle-error/handleError';
 
 const socket: Socket = io(import.meta.env.VITE_SOCKET_URL || 'localhost:3000');
 
@@ -42,20 +43,13 @@ const App = () => {
         ...newAppState
       }));
     };
-
-    const handleError = (data: string): void => {
-      setAppState(prev => ({
-        ...prev,
-        error: data,
-      }));
-    };
     
     socket.on('updateData', handleAppData);
-    socket.on('error', handleError);
+    socket.on('error', (data)=> handleError({ setAppState, message: data }));
 
     return () => {
       socket.off('updateData', handleAppData);
-    socket.off('error', handleError);
+      socket.off('error', (data)=> handleError({ setAppState, message: data }));
     };
   }, []);
 

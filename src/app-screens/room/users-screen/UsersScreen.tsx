@@ -5,6 +5,7 @@ import { faHandPaper } from '@fortawesome/fontawesome-free-solid';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import './usersScreen.css';
+import { handleError } from '../../../utils/errors/handle-error/handleError';
 
 const UsersScreen = () => {
   const { appState, socket, setAppState } = useAppContext();
@@ -17,7 +18,7 @@ const UsersScreen = () => {
   };
 
   const handleAfk = (): void => {
-    if(hasMic) return;
+    if(hasMic) handleError({ setAppState, message: 'You can not afk with the mic' });
     let updatedHandUp: boolean = handUp;
     if(!afk) updatedHandUp = false;
     const newUserData = {
@@ -43,7 +44,7 @@ const UsersScreen = () => {
   };
 
   const handleHandUp = (): void => {
-    if(hasMic && !handUp) return;
+    if(hasMic && !handUp) return handleError({ setAppState, message: 'You already have the mic' });
     let updatedAfk: boolean = afk;
     if(!handUp) updatedAfk = false;
     const newUserData = {
@@ -69,12 +70,12 @@ const UsersScreen = () => {
   };
 
   const handlePassTheMic = (toUserId: string) => {
-    if(!appState.user?.controller.hasMic) return;
+    if(!appState.user?.controller.hasMic) return handleError({ setAppState, message: 'You do not have the mic' });
     
     const foundUser = appState.roomData?.users.find((user)=> user.id === toUserId);
-    if(!foundUser) return;
-    if(foundUser.controller.hasMic) return;
-    if(foundUser.controller.afk) return;
+    if(!foundUser) return handleError({ setAppState, message: 'User not found' });
+    if(foundUser.controller.hasMic) return handleError({ setAppState, message: 'This user already has the mic' });
+    if(foundUser.controller.afk) return handleError({ setAppState, message: 'This user is afk' });
 
     socket.emit('passTheMic', {
       fromUserId: appState.user!.id,

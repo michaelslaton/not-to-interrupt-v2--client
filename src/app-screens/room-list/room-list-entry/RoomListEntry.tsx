@@ -3,6 +3,7 @@ import { faUser } from '@fortawesome/fontawesome-free-solid';
 import type { IconProp } from '@fortawesome/fontawesome-svg-core';
 import './roomListEntry.css';
 import { useAppContext } from '../../../App';
+import { handleError } from '../../../utils/errors/handle-error/handleError';
 
 type Props = {
   data: {
@@ -15,10 +16,10 @@ type Props = {
 
 const RoomListEntry = ({ data, index }: Props) => {
   const { id, name, users } = data;
-  const { appState, socket } = useAppContext();
+  const { appState, socket, setAppState } = useAppContext();
 
   const handleJoin = (): void => {
-    if(appState.roomData) return;
+    if(appState.roomData) return handleError({ setAppState, message: 'No data available' });
     socket.emit('joinRoom', {
       userId: appState.user!.id,
       roomId: id,

@@ -16,6 +16,7 @@ const ChatScreen = () => {
     socket.emit('getChatEntries', { roomId: appState.roomData!.id });
     socket.on('getChatEntries', (data => setChatEntries(data)));
     setTempColor(appState.user!.color);
+    
     return () => {
     socket.off('getChatEntries', (data => setChatEntries(data)));
     };
