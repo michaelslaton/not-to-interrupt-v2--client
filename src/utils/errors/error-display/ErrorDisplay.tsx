@@ -9,7 +9,7 @@ const ErrorDisplay = () => {
     return false;
   };
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setAppState(prev => ({
       ...prev,
       error: null,

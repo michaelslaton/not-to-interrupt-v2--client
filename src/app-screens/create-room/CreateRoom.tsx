@@ -12,6 +12,9 @@ const CreateRoom = () => {
   const handleCreateRoom = (e: Event): void  => {
     e.preventDefault();
     const enteredName: string = inputName.trim();
+    if(!socket.id) return handleError({ setAppState, message: 'No open socket' });
+    if(enteredName.length < 3) return handleError({ setAppState, message: 'Entered room name is too short. (3 characters minimum)'});
+    if(enteredName.length > 15) return handleError({ setAppState, message: 'Entered room name is too long (15 characters maximum)' });
     if(!regExOnlyLettersAndSpace.test(enteredName)) return handleError({ setAppState, message: 'Room name can not contain special characters or numbers.' });
 
     socket.emit('createRoom', {
@@ -28,7 +31,7 @@ const CreateRoom = () => {
         handleSubmit={handleCreateRoom}
         setInputName={setInputName}
         name='Room'
-        maxLength={12}
+        maxLength={15}
       />
     </div>
   );

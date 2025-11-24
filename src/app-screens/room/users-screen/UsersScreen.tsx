@@ -90,10 +90,7 @@ const UsersScreen = () => {
         <div className='userName'>
           {appState.user!.name}
         </div>
-        <div
-          className={`hasMic ${hasMic && 'active'}`}
-          onClick={()=> console.log(hasMic)}
-        >
+        <div className={`hasMic ${hasMic && 'active'}`}>
           🎙️
         </div>
         <button

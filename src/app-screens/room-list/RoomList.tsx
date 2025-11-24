@@ -10,9 +10,9 @@ const RoomList = () => {
   const [roomList, setRoomList] = useState<RoomListingType[]>([]);
 
   useEffect(() => {
-      if(!socket.id) return handleError({ setAppState, message: 'No open socket' });
+    if(!socket.id) return handleError({ setAppState, message: 'No open socket' });
 
-    const handleRoomList = (data: RoomListingType[]) => {
+    const handleRoomList = (data: RoomListingType[]): void => {
       setRoomList(data);
     };
 
@@ -30,7 +30,7 @@ const RoomList = () => {
   }, [socket]);
 
   useEffect(() => {
-    if (socket) socket.emit('getRoomList');
+    if(socket) socket.emit('getRoomList');
   }, [socket, appState.roomData]);
 
   return (

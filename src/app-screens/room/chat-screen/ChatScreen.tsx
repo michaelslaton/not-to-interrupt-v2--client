@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent, type JSX } from 'react';
 import { useAppContext } from '../../../App';
 import type { ChatEntryType } from '../../../types/ChatEntryType.type';
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +10,7 @@ const ChatScreen = () => {
   const { socket, appState } = useAppContext();
   const [chatMessage, setChatMessage] = useState<string>('');
   const [tempColor, setTempColor] = useState<string>('');
-  const [chatEntries, setChatEntries] = useState<ChatEntryType[] | []>([]);  
+  const [chatEntries, setChatEntries] = useState<ChatEntryType[] | []>([]); 
   
   useEffect(()=>{
     socket.emit('getChatEntries', { roomId: appState.roomData!.id });
@@ -23,6 +23,8 @@ const ChatScreen = () => {
   },[]);
 
   const formatTimestamp = (date: Date): string => {
+    if(!date) return '';
+
     const timeStamp: Date = new Date(date);
     let hours: number = timeStamp.getHours();
     const minutes: string = timeStamp.getMinutes().toString().padStart(2, "0");
@@ -37,7 +39,7 @@ const ChatScreen = () => {
     return `${hours}:${minutes} ${ampm} ${month}/${day}/${year}`;
   };
 
-  const populateChatEntries = () => {
+  const populateChatEntries = (): JSX.Element => {
     return (
       <>
         {chatEntries.map((entry, i)=>(
@@ -59,21 +61,23 @@ const ChatScreen = () => {
 
   const sendChat = (e: FormEvent): void => {
     e.preventDefault();
+    if(chatMessage.trim().length <= 0) return;
     const data = {
       roomId: appState.roomData!.id,
       user: appState.user!.id,
-      message: chatMessage,
+      message: chatMessage.trim(),
     };
     setChatMessage('');
     socket.emit('sendChat', data);
   };
 
   const handleSendColor = (): void => {
+    if(appState.user!.color === tempColor) return;
     const updatedUser = {
       ...appState.user,
       color: tempColor,
     };
-    socket.emit('updateColor', { roomId: appState.roomData!.id, newUserData: updatedUser })
+    socket.emit('updateColor', { roomId: appState.roomData!.id, newUserData: updatedUser });
   };
 
   return (

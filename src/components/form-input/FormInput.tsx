@@ -9,6 +9,8 @@ type FormInputProps = {
 };
 
 const FormInput = ({ inputValue, handleSubmit, name, setInputName, maxLength }: FormInputProps) => {
+  if(!handleSubmit) return ( <></> );
+  if(!setInputName) return ( <></> );
 
   return (
     <div className='form-input__container'>
